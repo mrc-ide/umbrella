@@ -1,14 +1,18 @@
 Package: umbrella
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Rainfall & seasonality
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Authors@R: c(
+    person("Pete", "Winskill", email = "p.winskill@imperial.ac.uk", role = c("aut", "cre"))
+    )
+Description: Download CHIRPS rainfall rasters. Extract rainfall by place. Estimate seaosnality profiles.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Suggests: 
-    testthat,
+    testthat (>= 2.1.0),
     covr
+RoxygenNote: 7.0.2
+Imports: 
+    raster,
+    purrr
