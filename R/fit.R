@@ -12,7 +12,7 @@ fit_season <- function(target, t){
         target = target, t = t,
         fn = season_optim,
         method = "L-BFGS-B",
-        lower = rep(-1, 7), upper = rep(1, 7))
+        lower = rep(-10, 7), upper = rep(10, 7))
 }
 
 #' Fourier fitting function internal
