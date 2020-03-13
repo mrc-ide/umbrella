@@ -20,6 +20,18 @@ urls <- function(year){
   links(core = "ftp://ftp.chg.ucsb.edu/pub/org/chg/products/CHIRP/daily/", years, months, days)
 }
 
+#' Create links
+#'
+#' @param core Core link
+#' @param years Years
+#' @param months Months
+#' @param days Days
+#'
+#' @return Formtted URL
+links <- function(core, years, months, days){
+  paste0(core, years, "/chirp.", years, ".", months, ".", days, ".tif")
+}
+
 #' Download CHIRPs rasters
 #'
 #' @param years Vector of years
@@ -43,5 +55,5 @@ download <- function(years, days, output_address, quiet = TRUE){
     u[days[days <= length(u)]]
   }))
   filenames <- paste0(output_address, "/", sub(".*/", "", address))
-  purrr::map2(address, filenames, download.file, mode = "wb", quiet = quiet)
+  purrr::map2(address, filenames, utils::download.file, mode = "wb", quiet = quiet)
 }

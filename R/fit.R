@@ -8,8 +8,8 @@
 #' @return Optim output
 #' @export
 fit_season <- function(target, t){
-  optim(par = rep(0, 7),
-        target = t3$rn, t = seq(0, 1, length.out = 365),
+  stats::optim(par = rep(0, 7),
+        target = target, t = t,
         fn = season_optim,
         method = "L-BFGS-B",
         lower = rep(-1, 7), upper = rep(1, 7))
