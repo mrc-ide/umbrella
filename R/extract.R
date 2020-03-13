@@ -8,5 +8,5 @@
 #' @export
 extract_rain <- function(raster_stack, shape, ...){
   cropped_stack <- raster::crop(raster_stack, shape)
-  extract <- raster::extract(cropped_stack, raster_stack, ...)
+  extract <- raster::extract(cropped_stack, shape, ...)
 }
