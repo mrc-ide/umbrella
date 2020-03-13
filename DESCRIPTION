@@ -1,6 +1,6 @@
 Package: umbrella
 Type: Package
-Title: Functionality to access and process CHIRPS rainfall data and estimate seasonality profiles.
+Title: Rainfall & seasonality
 Version: 0.1.0
 Authors@R: c(
     person("Pete", "Winskill", email = "p.winskill@imperial.ac.uk", role = c("aut", "cre"))
