@@ -2,4 +2,6 @@
 
 export(download)
 export(extract_rain)
+export(fit_season)
+export(season_optim)
 export(seasonality)
