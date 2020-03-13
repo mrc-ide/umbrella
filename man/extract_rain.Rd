@@ -4,10 +4,10 @@
 \alias{extract_rain}
 \title{Extract rainfall from rasters}
 \usage{
-extract_rain(raster_list, shape, ...)
+extract_rain(raster_stack, shape, ...)
 }
 \arguments{
-\item{raster_list}{list of raster files}
+\item{raster_stack}{Raster stack}
 
 \item{shape}{Spatial polygon (tested with sf)}
 
