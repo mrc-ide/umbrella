@@ -14,6 +14,5 @@ test_that("Download", {
   expect_error(download(2015, 368, "t"))
   expect_error(download(1979, 1, "t"))
   expect_error(download(3000, 1, "t"))
-  expect_error(download(2015, 1, "bad_address"))
 })
 
