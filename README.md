@@ -13,15 +13,15 @@ status](https://ci.appveyor.com/api/projects/status/github/mrc-ide/umbrella?bran
 coverage](https://codecov.io/gh/mrc-ide/umbrella/branch/master/graph/badge.svg)](https://codecov.io/gh/mrc-ide/umbrella?branch=master)
 <!-- badges: end -->
 
-The goal of umbrella is to facilitate acesss and extraction of CHIRPS
-rainfall data and allow seasonal profiles to be fitted. Please see the
-[CHIRPS website](https://www.chc.ucsb.edu/data/chirps) for more
-information, usage rights and [citation
+Umbrella facilitates acesss and extraction of CHIRPS rainfall data and
+fitting of seasonal profiles. Please see the [CHIRPS
+website](https://www.chc.ucsb.edu/data/chirps) for more information,
+usage rights and [citation
 infromation](http://legacy.chg.ucsb.edu/data/chirps/#_Citations).
 
 ## Installation
 
-And the development version from [GitHub](https://github.com/) with:
+Please install from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
