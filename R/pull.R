@@ -49,6 +49,12 @@ links <- function(core, years, months, days){
 download <- function(years, days, output_address, quiet = TRUE){
   stopifnot(all(days > 0))
   stopifnot(all(days < 367))
+  if(min(years) < 1981){
+    stop("CHIRPs data only available from 1980")
+  }
+  if(max(years) > format(Sys.Date(), "%Y")){
+    stop("Years extends beyond present")
+  }
 
   address <- unlist(lapply(years, function(x){
     u <- urls(x)
