@@ -5,12 +5,12 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.org/mrc-ide/umbrella.svg?branch=master)](https://travis-ci.org/mrc-ide/umbrella)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/mrc-ide/umbrella?branch=master&svg=true)](https://ci.appveyor.com/project/mrc-ide/umbrella)
-[![Codecov test
-coverage](https://codecov.io/gh/mrc-ide/umbrella/branch/master/graph/badge.svg)](https://codecov.io/gh/mrc-ide/umbrella?branch=master)
+[![R build
+status](https://github.com/mrc-ide/umbrella/workflows/R-CMD-check/badge.svg)](https://github.com/mrc-ide/umbrella/actions)
+[![codecov](https://codecov.io/gh/mrc-ide/umbrella/branch/master/graph/badge.svg)](https://codecov.io/gh/mrc-ide/umbrella)
+[![Project Status: WIP – Initial development is in progress, but there
+has not yet been a stable, usable release suitable for the
+public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 <!-- badges: end -->
 
 Umbrella facilitates acesss and extraction of CHIRPS rainfall data and
