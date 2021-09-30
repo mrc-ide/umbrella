@@ -1,41 +1,60 @@
-#' Fourier transform internal cos
+#' Estimate the fourier coefficients
 #'
-#' @param a Parameter
-#' @param t Vector of times
-#' @param i Level
+#' @param rainfall Vector of rainfall
+#' @param t Vector of times. Must be between 0 and 1.
 #'
-#' @return Fourier component
-s_a <- function(a, t, i){
-  a * cos(2 * pi * t * i)
-}
-
-#' Fourier transform internal sin
-#'
-#' @param b Parameter
-#' @param t Vector of times
-#' @param i Level
-#'
-#' @return Fourier component
-s_b <- function(b, t, i){
-  b * sin(2 * pi * t * i)
-}
-
-#' Seasonality curve
-#'
-#' Predicts a seasonal curve given fourier transform parameters
-#'
-#' @param par Parameter vector: a0, a1, b2, a2, b2, a3, b3
-#' @param t Vector of times. One year runs between 0 and 1.
-#'
-#' @return seasonality curve
+#' @return Coefficient estimates
 #' @export
-seasonality <- function(par, t = seq(0, 1, length.out = 365)){
-  stopifnot(length(par) == 7)
-  par[1] +
-    s_a(par[2], t, 1) +
-    s_b(par[3], t, 1) +
-    s_a(par[4], t, 2) +
-    s_b(par[5], t, 2) +
-    s_a(par[6], t, 3) +
-    s_b(par[7], t, 3)
+#'
+#' @examples
+fourier_model <- function(rainfall, t){
+  if(any(t > 1) | any (t < 0)){
+    stop("t must be between 0 and 1")
+  }
+  if(length(rainfall) != length(t)){
+    stop("rainfall and t must be of equal length")
+  }
+
+  model_data <- data.frame(
+    rainfall = rainfall,
+    g1 = basecos(level = 1, t = t),
+    g2 = basecos(level = 2, t = t),
+    g3 = basecos(level = 3, t = t),
+    h1 = basesin(level = 1, t = t),
+    h2 = basesin(level = 2, t = t),
+    h3 = basesin(level = 3, t = t))
+
+  model <- lm(rainfall ~ g1 + g2 + g3 + h1 + h2 + h3, data = model_data)
+
+  return(model)
+}
+
+fourier_ceofficient <- function(model){
+  coef <- summary(model)$coef[,1]
+  names(coef)[1] <- "g0"
+  coef <- data.frame(t(coef))
+  return(coef)
+}
+
+fourier_predict <- function(model, t){
+  new_data <- data.frame(
+    g1 = basecos(level = 1, t = t),
+    g2 = basecos(level = 2, t = t),
+    g3 = basecos(level = 3, t = t),
+    h1 = basesin(level = 1, t = t),
+    h2 = basesin(level = 2, t = t),
+    h3 = basesin(level = 3, t = t))
+
+  prediction <- predict(model, newdata = new_data)
+  profile <- data.frame(t = t, y = prediction)
+
+  return(profile)
+}
+
+basecos <- function(level, t = 1:365 / 365){
+  cos(2 * pi * t * level)
+}
+
+basesin <- function(level, t = 1:365 / 365){
+  sin(2 * pi * t * level)
 }

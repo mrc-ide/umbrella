@@ -15,4 +15,11 @@ Suggests:
 RoxygenNote: 7.1.1
 Imports: 
     raster,
-    purrr
+    purrr,
+    rgee,
+    magrittr,
+    lubridate,
+    tidyr,
+    readr
+Depends: 
+    R (>= 2.10)
