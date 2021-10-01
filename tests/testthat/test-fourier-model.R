@@ -1,0 +1,15 @@
+test_that("fourier model", {
+  m1 <- fourier_model(cos(2 * pi * 1:365 / 365), 1:365 / 365)
+  expect_equal(class(m1), "lm")
+  expect_warning(coef1 <- round(fourier_ceofficient(m1)))
+  expect_identical(coef1, data.frame(g0 = 0, g1 = 1, g2 = 0, g3 = 0, h1 = 0, h2 = 0, h3 = 0))
+  pred1 <- fourier_predict(m1, 1:365 / 365)
+  expect_identical(round(pred1$y, 5), round(cos(2 * pi * 1:365 / 365), 5))
+
+  m2 <- fourier_model(sin(2 * pi * 1:365 / 365), 1:365 / 365)
+  expect_equal(class(m2), "lm")
+  expect_warning(coef2 <- round(fourier_ceofficient(m2)))
+  expect_identical(coef2, data.frame(g0 = 0, g1 = 0, g2 = 0, g3 = 0, h1 = 1, h2 = 0, h3 = 0))
+  pred2 <- fourier_predict(m2, 1:365 / 365)
+  expect_identical(round(pred2$y, 5), round(sin(2 * pi * 1:365 / 365), 5))
+})

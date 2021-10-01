@@ -5,8 +5,6 @@
 #'
 #' @return Coefficient estimates
 #' @export
-#'
-#' @examples
 fourier_model <- function(rainfall, t){
   if(any(t > 1) | any (t < 0)){
     stop("t must be between 0 and 1")
@@ -24,13 +22,13 @@ fourier_model <- function(rainfall, t){
     h2 = basesin(level = 2, t = t),
     h3 = basesin(level = 3, t = t))
 
-  model <- lm(rainfall ~ g1 + g2 + g3 + h1 + h2 + h3, data = model_data)
+  model <- stats::lm(rainfall ~ g1 + g2 + g3 + h1 + h2 + h3, data = model_data)
 
   return(model)
 }
 
 fourier_ceofficient <- function(model){
-  coef <- summary(model)$coef[,1]
+  coef <- stats::summary.lm(model)$coef[,1]
   names(coef)[1] <- "g0"
   coef <- data.frame(t(coef))
   return(coef)
@@ -45,7 +43,7 @@ fourier_predict <- function(model, t){
     h2 = basesin(level = 2, t = t),
     h3 = basesin(level = 3, t = t))
 
-  prediction <- predict(model, newdata = new_data)
+  prediction <- stats::predict(model, newdata = new_data)
   profile <- data.frame(t = t, y = prediction)
 
   return(profile)
