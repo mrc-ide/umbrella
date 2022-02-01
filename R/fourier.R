@@ -1,58 +1,64 @@
 #' Estimate the fourier coefficients
 #'
-#' @param rainfall Vector of rainfall
-#' @param t Vector of times. Must be between 0 and 1.
-#'
-#' @return Coefficient estimates
+#' @inheritParams objective
 #' @export
-fourier_model <- function(rainfall, t){
-  if(any(t > 1) | any (t < 0)){
-    stop("t must be between 0 and 1")
-  }
-  if(length(rainfall) != length(t)){
-    stop("rainfall and t must be of equal length")
-  }
-
-  model_data <- data.frame(
-    rainfall = rainfall,
-    g1 = basecos(level = 1, t = t),
-    g2 = basecos(level = 2, t = t),
-    g3 = basecos(level = 3, t = t),
-    h1 = basesin(level = 1, t = t),
-    h2 = basesin(level = 2, t = t),
-    h3 = basesin(level = 3, t = t))
-
-  model <- stats::lm(rainfall ~ g1 + g2 + g3 + h1 + h2 + h3, data = model_data)
-
-  return(model)
+fourier_predict <- function(coef, t, floor){
+  prediction <- data.frame(
+    g0 = coef[1],
+    g1 = coef[2] * basecos(level = 1, t = t),
+    g2 = coef[3] * basecos(level = 2, t = t),
+    g3 = coef[4] * basecos(level = 3, t = t),
+    h1 = coef[5] * basesin(level = 1, t = t),
+    h2 = coef[6] * basesin(level = 2, t = t),
+    h3 = coef[7] * basesin(level = 3, t = t)) %>%
+    rowSums()
+  prediction <- pmax(floor, prediction)
+  out <- data.frame(t = t, profile = prediction)
+  return(out)
 }
 
-fourier_ceofficient <- function(model){
-  coef <- stats::summary.lm(model)$coef[,1]
-  names(coef)[1] <- "g0"
-  coef <- data.frame(t(coef))
-  return(coef)
+#' Objective function for fitting
+#'
+#' @param coef Fourier coefficients
+#' @inheritParams fit_fourier
+#'
+#' @return Sum of squared differences between profile and rainfall data
+objective <- function(coef, t, floor, rainfall){
+  sum((fourier_predict(coef = coef, t = t, floor = floor)$profile - rainfall)^2)
 }
 
-fourier_predict <- function(model, t){
-  new_data <- data.frame(
-    g1 = basecos(level = 1, t = t),
-    g2 = basecos(level = 2, t = t),
-    g3 = basecos(level = 3, t = t),
-    h1 = basesin(level = 1, t = t),
-    h2 = basesin(level = 2, t = t),
-    h3 = basesin(level = 3, t = t))
-
-  prediction <- stats::predict(model, newdata = new_data)
-  profile <- data.frame(t = t, y = prediction)
-
-  return(profile)
+#' Fit fourier parameters
+#'
+#' Note without the floor functionality parameters can be more efficiently estimated
+#' with `lm()`.
+#'
+#' @param rainfall Vector of rainfall
+#' @param t Vector of timesteps (between 0 and 1)
+#' @param floor Lower bound on rainfall fit
+#'
+#' @return Model fit
+#' @export
+fit_fourier <- function(rainfall, t, floor = 0.001){
+  fit <- stats::nlm(f = objective, p = c(mean(rainfall), rep(0, 6)), t = t, rainfall = rainfall, floor = floor)
+  coefficients <- fit$estimate
+  names(coefficients) <- c("g0", "g1", "g2", "g3", "h1", "h2", "h3")
+  fit$coefficients <- as.numeric((t(coefficients)))
+  fit$floor <- floor
+  return(fit)
 }
 
+#' Cos component of fourier series
+#'
+#' @param level level: 1, 2, or 3
+#' @param t time
 basecos <- function(level, t = 1:365 / 365){
   cos(2 * pi * t * level)
 }
 
+#' Sin component of fourier series
+#'
+#' @param level level: 1, 2, or 3
+#' @param t time
 basesin <- function(level, t = 1:365 / 365){
   sin(2 * pi * t * level)
 }

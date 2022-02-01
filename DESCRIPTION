@@ -12,7 +12,9 @@ LazyData: true
 Suggests: 
     testthat (>= 2.1.0),
     covr,
-    roxygen2
+    roxygen2,
+    knitr,
+    rmarkdown
 RoxygenNote: 7.1.1
 Imports: 
     rgee,
@@ -20,7 +22,11 @@ Imports:
     lubridate,
     tidyr,
     readr,
+    ggplot2,
+    sf,
     dplyr,
-    rlang (>= 0.1.2)
+    rlang (>= 0.1.2),
+    stats
 Depends: 
     R (>= 2.10)
+VignetteBuilder: knitr

@@ -1,6 +1,7 @@
 #' Extract mean daily precipitation
 #'
-#' @param sf A simple features object. See \code{\link[sf]{sf}} for more details.
+#' @param sf A simple features object. See \code{\link[sf]{sf}} for more details. The
+#' geometry list-column must be named "geometry".
 #' @param start_date First extraction time point. A string with format: "yyyy-mm-dd".
 #' @param end_date Last extraction time point. A string with format: "yyyy-mm-dd".
 #'

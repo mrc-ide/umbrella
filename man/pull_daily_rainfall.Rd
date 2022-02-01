@@ -7,7 +7,8 @@
 pull_daily_rainfall(sf, start_date, end_date)
 }
 \arguments{
-\item{sf}{A simple features object. See \code{\link[sf]{sf}} for more details.}
+\item{sf}{A simple features object. See \code{\link[sf]{sf}} for more details. The
+geometry list-column must be named "geometry".}
 
 \item{start_date}{First extraction time point. A string with format: "yyyy-mm-dd".}
 

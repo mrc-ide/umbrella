@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# umbrella
+# umbrella <img src="inst/figures/hex.png" align="right" width="120" />
 
 <!-- badges: start -->
 
@@ -53,3 +53,7 @@ where
 *g*<sub>0</sub>, *g*<sub>1</sub>, *g*<sub>2</sub>, *g*<sub>3</sub>, *h*<sub>1</sub>, *h*<sub>2</sub>, *h*<sub>3</sub>
 are fitted parameters. This equation can be fitted as a linear model
 using Rs `lm` function.
+
+However, we impose an additional constrain when fitting: the rainfall
+floor. This sets a minimum lower bound on the value of rainfall. With
+this constraint we fit the resuling model with the `nlm()` function.
