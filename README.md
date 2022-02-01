@@ -49,11 +49,10 @@ given rainfall in a setting using the following equation
 
 <img src="man/figures/eq.png" />
 
-where
-*g*<sub>0</sub>, *g*<sub>1</sub>, *g*<sub>2</sub>, *g*<sub>3</sub>, *h*<sub>1</sub>, *h*<sub>2</sub>, *h*<sub>3</sub>
-are fitted parameters. This equation can be fitted as a linear model
-using Rs `lm` function.
+where \[ g_{0}, g_{1}, g_{2}, g_{3}, h_{1}, h_{2}, h_{3} \] are fitted
+parameters. This equation can be fitted as a linear model using Rs `lm`
+function.
 
 However, we impose an additional constrain when fitting: the rainfall
 floor. This sets a minimum lower bound on the value of rainfall. With
-this constraint we fit the resuling model with the `nlm()` function.
+this constraint we fit the resulting model with the `nlm()` function.
