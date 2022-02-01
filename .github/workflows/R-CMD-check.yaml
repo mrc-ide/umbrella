@@ -3,7 +3,6 @@
 on:
   push:
   pull_request:
-    branches:
 
 name: R-CMD-check
 
