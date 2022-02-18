@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# umbrella <img src="inst/figures/hex.png" align="right" width="120" />
+# umbrella <img src="man/figures/hex.png" align="right" width="120" />
 
 <!-- badges: start -->
 [![R build status](https://github.com/mrc-ide/umbrella/workflows/R-CMD-check/badge.svg)](https://github.com/mrc-ide/umbrella/actions)
