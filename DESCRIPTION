@@ -1,7 +1,7 @@
 Package: umbrella
 Type: Package
 Title: Rainfall & seasonality
-Version: 0.1.4
+Version: 0.2.0
 Authors@R: c(
     person("Pete", "Winskill", email = "p.winskill@imperial.ac.uk", role = c("aut", "cre"))
     )
@@ -11,8 +11,22 @@ Encoding: UTF-8
 LazyData: true
 Suggests: 
     testthat (>= 2.1.0),
-    covr
+    covr,
+    roxygen2,
+    knitr,
+    rmarkdown
 RoxygenNote: 7.1.1
 Imports: 
-    raster,
-    purrr
+    rgee,
+    magrittr,
+    lubridate,
+    tidyr,
+    readr,
+    ggplot2,
+    sf,
+    dplyr,
+    rlang (>= 0.1.2),
+    stats
+Depends: 
+    R (>= 2.10)
+VignetteBuilder: knitr

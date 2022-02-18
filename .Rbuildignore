@@ -5,3 +5,7 @@
 ^appveyor\.yml$
 ^codecov\.yml$
 ^\.github$
+ignore
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
