@@ -1,5 +1,5 @@
 ---
-title: "Fitting-rainfall-profiles"
+title: "Fitting rainfall profiles"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Fitting-rainfall-profiles}
