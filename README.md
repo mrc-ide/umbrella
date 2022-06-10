@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# umbrella <img src="man/figures/hex.png" align="right" width="120" />
+# cali <img src="man/figures/hex.png" align="right" width=30% height=30% />
 
 <!-- badges: start -->
 
@@ -50,7 +50,9 @@ given rainfall in a setting using the following equation
 <img src="man/figures/eq.png" />
 
 where
-*g*<sub>0</sub>, *g*<sub>1</sub>, *g*<sub>2</sub>, *g*<sub>3</sub>, *h*<sub>1</sub>, *h*<sub>2</sub>, *h*<sub>3</sub>
+
+![ g\_{0}, g\_{1}, g\_{2}, g\_{3}, h\_{1}, h\_{2}, h\_{3} ](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%20g_%7B0%7D%2C%20g_%7B1%7D%2C%20g_%7B2%7D%2C%20g_%7B3%7D%2C%20h_%7B1%7D%2C%20h_%7B2%7D%2C%20h_%7B3%7D%20 " g_{0}, g_{1}, g_{2}, g_{3}, h_{1}, h_{2}, h_{3} ")
+
 are fitted parameters. This equation can be fitted as a linear model
 using Rs `lm` function.
 
