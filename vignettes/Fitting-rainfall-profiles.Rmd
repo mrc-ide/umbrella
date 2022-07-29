@@ -16,119 +16,47 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(umbrella)
-library(sf)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
 ```
 
 Below is an example workflow for using the umbrella package to fit rainfall profiles
 for use in malariasimulation.
 
-First we need a sf shape file to define the areas we want to capture rainfall for:
+First you'll need to download the rasters and extract the raw data. There are 
+some helper function to download global daily rainfall rasters in the package.
+You can use the `get_urls()` function to create the URLs to get daily rainfall
+rasters for a given year. After that the `download_raster()` can be used to 
+download the rasters to your device. Beware that the set of unzipped rasters
+for a whole year will take up quite a bit of memory (each raster is about 2.2 MB).
 
-```{r}
-# Load an example sf file for two admin 1 units
-spatial_data <- umbrella::example_admin_sf
-```
-
-Specify the start and end times of the period we are interested in
-
-```{r}
-# Specify time-range
-start_date <- "2017-01-01"
-end_date <- "2019-12-31"
-```
-
-And extract the data (We won't do this here as it links to python and takes a little time)
+Once you have you set of rasters you can load them and extract the data. For this
+I recommend getting a `sf` shape file with the boundaries of the area you
+would like to extract the data for. The R package `terra` is a great way to
+extract the data, something like:
 
 ```{r, eval=FALSE}
-# Extract
-daily_rain_raw <- pull_daily_rainfall(sf = spatial_data, start_date = start_date, end_date = end_date)
+my_raster_files <- c("rainfall1.tif", "rainfall2.tif")
+my_raster <- terra::rast(my_raster_files)
+my_sf <- load("my_sf.rds")
+extract_data <- terra::extract(my_raster, my_sf, fun = mean)
 ```
 
-Instead we can load pre-extracted output
+Once you've extracted and tidied the output, you might have somethig like:
 
 ```{r}
-# Extract
-daily_rain_raw <- umbrella::example_daily_rain_raw
+rainfall
 ```
 
-
-
-Next, let's tidy up the raw output
-
-```{r}
-# Process the raw data
-daily_rain  <- daily_rain_raw %>%
-  # Convert to long and format
-  pivot_longer(-c(ISO, Country, admin1),
-               names_to = "date",
-               values_to = "rainfall",
-               names_prefix = "X",
-               names_pattern = "(.*)_precipitation") %>%
-  mutate(date = as.Date(as.character(readr::parse_number(.data$date)), format = "%Y%m%d"),
-         year = lubridate::year(.data$date),
-         day_of_year = lubridate::yday(.data$date),
-         t = lubridate::yday(.data$date) / 365,
-         rainfall = as.numeric(rainfall)) %>%
-  # Replace missing data with 0
-  replace_na(replace = list(rainfall = 0)) %>%
-  # Remove any leap year addtional days
-  dplyr::filter(.data$day_of_year < 366)
-```
-
-First we will fit a profile combining data from all three years:
+Lets fit a simple seasonal profile to this dataset, and a profile with an imposed
+minimum rainfall floor.
 
 ```{r, fig.width=7}
-rain <- daily_rain %>%
-  group_by(ISO, Country, admin1) %>%
-  summarise(
-    data = list(data.frame(date, day_of_year, t, rainfall)),
-    model = list(fit_fourier(data[[1]]$rainfall, data[[1]]$t)),
-    profile = list(fourier_predict(model[[1]]$coefficients, t = 1:365 / 365, floor = model[[1]]$floor))
-  )
+fit1 <- fit_fourier(rainfall = rainfall$rainfall, t = rainfall$day, floor = 0)
+predict_1 <- fourier_predict(coef = fit1$coefficients, t = 1:365, floor = 0)
 
-# Visualise output
-rd <- rain %>%
-  select(ISO, Country, data) %>%
-  tidyr::unnest(cols = c("data"))
-pf <- rain %>%
-  select(ISO, Country, profile) %>%
-  tidyr::unnest(cols = c("profile"))
+fit2 <- fit_fourier(rainfall = rainfall$rainfall, t = rainfall$day, floor = 1)
+predict_2 <- fourier_predict(coef = fit1$coefficients, t = 1:365, floor = 1)
 
-ggplot() +
-  geom_point(data = rd, aes(x = t, y = rainfall, col = Country), alpha = 1, size = 0.1) +
-  geom_line(data = pf, aes(x = t, y = profile)) +
-  theme_bw() +
-  theme(strip.background = element_rect(fill = "white")) +
-  facet_grid( ~ Country)
-```
-
-If required we can fit each year individually:
-
-```{r, fig.width=7, fig.height=7}
-rain2 <- daily_rain %>%
-  group_by(year, ISO, Country, admin1) %>%
-  summarise(
-    data = list(data.frame(date, day_of_year, t, rainfall)),
-    model = list(fit_fourier(data[[1]]$rainfall, data[[1]]$t)),
-    profile = list(fourier_predict(model[[1]]$coefficients, t = 1:365 / 365, floor = model[[1]]$floor))
-  )
-
-# Visualise output
-rd2 <- rain2 %>%
-  select(year, ISO, Country, data) %>%
-  tidyr::unnest(cols = c("data"))
-pf2 <- rain2 %>%
-  select(year, ISO, Country, profile) %>%
-  tidyr::unnest(cols = c("profile"))
-
-ggplot() +
-  geom_point(data = rd2, aes(x = t, y = rainfall, col = Country), alpha = 1, size = 0.1) +
-  geom_line(data = pf2, aes(x = t, y = profile)) +
-  theme_bw() +
-  theme(strip.background = element_rect(fill = "white")) +
-  facet_grid(year ~ Country)
-
+plot(rainfall, xlab = "Day", ylab = "Rainfall", pch = 19)
+lines(predict_1, col = "deeppink", lwd = 2)
+lines(predict_2, col = "dodgerblue", lwd = 2, lty = 2)
 ```
