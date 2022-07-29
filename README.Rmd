@@ -43,7 +43,7 @@ using the following equation
 
 <img src="man/figures/eq.png" />
 
-where g0, g1, g2, g3, h1, h2, h3 are fitted parameters. This equation
+where `g0`, `g1`, `g2`, `g3`, `h1`, `h2`, `h3` are fitted parameters. This equation
 can be fitted as a linear model using Rs `lm` function.
 
 However, we impose an additional constraint when fitting: the rainfall floor. This sets a minimum
