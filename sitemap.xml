@@ -19,22 +19,31 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/news/index.html</loc>
+  </url>
+  <url>
     <loc>/reference/basecos.html</loc>
   </url>
   <url>
     <loc>/reference/basesin.html</loc>
   </url>
   <url>
-    <loc>/reference/example_admin_sf.html</loc>
-  </url>
-  <url>
-    <loc>/reference/example_daily_rain_raw.html</loc>
+    <loc>/reference/download_raster.html</loc>
   </url>
   <url>
     <loc>/reference/fit_fourier.html</loc>
   </url>
   <url>
+    <loc>/reference/fit_lm.html</loc>
+  </url>
+  <url>
     <loc>/reference/fourier_predict.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_days.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_urls.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
@@ -43,12 +52,6 @@
     <loc>/reference/objective.html</loc>
   </url>
   <url>
-    <loc>/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pull_daily_rainfall.html</loc>
-  </url>
-  <url>
-    <loc>/reference/tidyeval.html</loc>
+    <loc>/reference/rainfall.html</loc>
   </url>
 </urlset>
