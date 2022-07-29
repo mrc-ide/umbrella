@@ -4,7 +4,7 @@
 \alias{basecos}
 \title{Cos component of fourier series}
 \usage{
-basecos(level, t = 1:365/365)
+basecos(level, t)
 }
 \arguments{
 \item{level}{level: 1, 2, or 3}
