@@ -43,13 +43,13 @@ extract_data <- terra::extract(my_raster, my_sf, fun = mean)
 Once you've extracted and tidied the output, you might have somethig like:
 
 ```{r}
-rainfall
+head(rainfall)
 ```
 
 Lets fit a simple seasonal profile to this dataset, and a profile with an imposed
 minimum rainfall floor.
 
-```{r, fig.width=7}
+```{r, fig.width=5, fig.height=5}
 fit1 <- fit_fourier(rainfall = rainfall$rainfall, t = rainfall$day, floor = 0)
 predict_1 <- fourier_predict(coef = fit1$coefficients, t = 1:365, floor = 0)
 
