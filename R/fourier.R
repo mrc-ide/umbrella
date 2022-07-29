@@ -3,6 +3,7 @@
 #' @inheritParams objective
 #' @export
 fourier_predict <- function(coef, t, floor){
+  coef <- unname(coef)
   prediction <- data.frame(
     g0 = coef[1],
     g1 = coef[2] * basecos(level = 1, t = t),
@@ -41,8 +42,8 @@ objective <- function(coef, t, floor, rainfall){
 fit_fourier <- function(rainfall, t, floor = 0.001){
   fit <- stats::nlm(f = objective, p = c(mean(rainfall), rep(0, 6)), t = t, rainfall = rainfall, floor = floor)
   coefficients <- fit$estimate
-  names(coefficients) <- c("g0", "g1", "g2", "g3", "h1", "h2", "h3")
   fit$coefficients <- as.numeric((t(coefficients)))
+  names(fit$coefficients) <- c("g0", "g1", "g2", "g3", "h1", "h2", "h3")
   fit$floor <- floor
   return(fit)
 }
