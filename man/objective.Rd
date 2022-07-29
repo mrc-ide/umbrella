@@ -9,7 +9,7 @@ objective(coef, t, floor, rainfall)
 \arguments{
 \item{coef}{Fourier coefficients}
 
-\item{t}{Vector of timesteps (between 0 and 1)}
+\item{t}{Vector of days (between 1 and 365)}
 
 \item{floor}{Lower bound on rainfall fit}
 

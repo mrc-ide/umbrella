@@ -4,7 +4,7 @@
 \alias{basesin}
 \title{Sin component of fourier series}
 \usage{
-basesin(level, t = 1:365/365)
+basesin(level, t)
 }
 \arguments{
 \item{level}{level: 1, 2, or 3}
