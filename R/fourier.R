@@ -70,6 +70,7 @@ fit_fourier <- function(rainfall, t, floor = 0.001){
 #' Linear model fit
 #'
 #' @inheritParams fit_fourier
+#' @export
 fit_lm <- function(rainfall, t){
   if(any(t > 365) | any (t < 1)){
     stop("t must be between 1 and 365")
