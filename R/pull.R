@@ -13,6 +13,7 @@ get_days <- function(year){
 #' @param url_base Base URL
 #'
 #' @return Daily global rainfall raster urls
+#' @export
 get_urls <- function(year, url_base = "https://data.chc.ucsb.edu/products/CHIRPS-2.0/global_daily/tifs/p25/"){
   if(year >= format(Sys.Date(), "%Y")){
     stop("Year must be in the past")
@@ -34,6 +35,7 @@ get_urls <- function(year, url_base = "https://data.chc.ucsb.edu/products/CHIRPS
 #' @param url Raster URL
 #' @param destination_file File address and name, file suffix must by .tif.gz,
 #' the final unzipped file will be with suffix .tif.
+#' @export
 download_raster <- function(url, destination_file){
   df <- utils::download.file(url = url, destfile = destination_file, mode = "wb", quiet = TRUE)
   R.utils::gunzip(destination_file)
