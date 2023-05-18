@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# umbrella <img src="man/figures/hex.png" align="right" width=30% height=30% />
+# umbrella <img src="man/figures/umbrella_hex.png" align="right" width=30% height=30% />
 
 <!-- badges: start -->
 
@@ -37,8 +37,8 @@ given rainfall in a setting using the following equation
 
 <img src="man/figures/eq.png" />
 
-where g0, g1, g2, g3, h1, h2, h3 are fitted parameters. This equation
-can be fitted as a linear model using Rs `lm` function.
+where `g0`, `g1`, `g2`, `g3`, `h1`, `h2`, `h3` are fitted parameters.
+This equation can be fitted as a linear model using Rs `lm` function.
 
 However, we impose an additional constraint when fitting: the rainfall
 floor. This sets a minimum lower bound on the value of rainfall. With
