@@ -60,7 +60,7 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="umbrella-">umbrella <img src="reference/figures/hex.png" align="right" width="30%" height="30%"><a class="anchor" aria-label="anchor" href="#umbrella-"></a>
+<div class="page-header"><h1 id="umbrella-">umbrella <img src="reference/figures/umbrella_hex.png" align="right" width="30%" height="30%"><a class="anchor" aria-label="anchor" href="#umbrella-"></a>
 </h1></div>
 <!-- badges: start -->
 
@@ -76,7 +76,7 @@
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"mrc-ide/umbrella"</span><span class="op">)</span></span></code></pre></div>
 <p>We estimate the fourier series representing general seasonal profiles given rainfall in a setting using the following equation</p>
 <p><img src="reference/figures/eq.png"></p>
-<p>where g0, g1, g2, g3, h1, h2, h3 are fitted parameters. This equation can be fitted as a linear model using Rs <code>lm</code> function.</p>
+<p>where <code>g0</code>, <code>g1</code>, <code>g2</code>, <code>g3</code>, <code>h1</code>, <code>h2</code>, <code>h3</code> are fitted parameters. This equation can be fitted as a linear model using Rs <code>lm</code> function.</p>
 <p>However, we impose an additional constraint when fitting: the rainfall floor. This sets a minimum lower bound on the value of rainfall. With this constraint we fit the resulting model with the <code><a href="https://rdrr.io/r/stats/optim.html" class="external-link">optim()</a></code> function.</p>
 </div>
 </div>
