@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# umbrella <img src="man/figures/umbrella_hex.png" align="right" width=30% height=30% />
+# umbrella <img src="man/figures/Umbrella.png" align="right" width=30% height=30% />
 
 <!-- badges: start -->
 
