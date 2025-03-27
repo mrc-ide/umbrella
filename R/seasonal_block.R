@@ -7,18 +7,16 @@
 #'
 #' @param profile A numeric vector representing daily values (e.g., rainfall) for a year.
 #' @param block_length An integer specifying the number of consecutive days in the block.
-#'
 #' @return A list with the following components:
 #'   \describe{
 #'     \item{max_percentage}{The maximum percentage of the total annual value contained in any block.}
 #'     \item{season_start}{The starting day (index) of the block with the maximum percentage.}
 #'     \item{season_end}{The ending day (index) of the block with the maximum percentage.}
 #'   }
-#'
 #' @details The function iterates over each possible starting day and calculates the sum of the values
 #' over the next `block_length` days. If the block extends beyond the end of the vector, the counting wraps
 #' around to the beginning of the year.
-#'
+#' @export
 #' @examples
 #' # Generate a seasonal pattern using a Fourier-based prediction
 #' seasonal_pattern <- fourier_predict(
