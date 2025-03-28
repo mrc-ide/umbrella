@@ -7,28 +7,28 @@
 seasonal_block(profile, block_length)
 }
 \arguments{
-\item{profile}{A numeric vector representing daily values (e.g., rainfall) for a year.}
+\item{profile}{A numeric vector representing values across a regular time cycle (e.g., daily rainfall over a year).}
 
-\item{block_length}{An integer specifying the number of consecutive days in the block.}
+\item{block_length}{An integer specifying the number of consecutive time steps in the block.}
 }
 \value{
 A list with the following components:
   \describe{
-    \item{max_percentage}{The maximum percentage of the total annual value contained in any block.}
-    \item{season_start}{The starting day (index) of the block with the maximum percentage.}
-    \item{season_end}{The ending day (index) of the block with the maximum percentage.}
+    \item{max_percentage}{The maximum percentage of the total value contained in any block.}
+    \item{season_start}{The starting index of the block with the maximum percentage.}
+    \item{season_end}{The ending index of the block with the maximum percentage.}
   }
 }
 \description{
-This function calculates the contiguous block of days (with wrapping at the end of the year)
-that contributes the highest percentage of the total annual value (e.g., rainfall).
-For each possible starting day, the function computes the sum of the next `block_length` days,
+This function identifies the contiguous block of time steps (with wrapping at the end of the profile)
+that contributes the highest percentage of the total value over the full cycle (e.g., a year).
+For each possible starting point, the function computes the sum over the next `block_length` time steps,
 converts that sum into a percentage of the total, and returns the block with the highest percentage.
 }
 \details{
-The function iterates over each possible starting day and calculates the sum of the values
-over the next `block_length` days. If the block extends beyond the end of the vector, the counting wraps
-around to the beginning of the year.
+The function iterates over each possible starting index and calculates the sum of the values
+over the next `block_length` time steps. If the block extends beyond the end of the vector, the counting wraps
+around to the beginning.
 }
 \examples{
 # Generate a seasonal pattern using a Fourier-based prediction

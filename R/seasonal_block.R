@@ -1,21 +1,21 @@
 #' Find Maximum Seasonal Block
 #'
-#' This function calculates the contiguous block of days (with wrapping at the end of the year)
-#' that contributes the highest percentage of the total annual value (e.g., rainfall).
-#' For each possible starting day, the function computes the sum of the next `block_length` days,
+#' This function identifies the contiguous block of time steps (with wrapping at the end of the profile)
+#' that contributes the highest percentage of the total value over the full cycle (e.g., a year).
+#' For each possible starting point, the function computes the sum over the next `block_length` time steps,
 #' converts that sum into a percentage of the total, and returns the block with the highest percentage.
 #'
-#' @param profile A numeric vector representing daily values (e.g., rainfall) for a year.
-#' @param block_length An integer specifying the number of consecutive days in the block.
+#' @param profile A numeric vector representing values across a regular time cycle (e.g., daily rainfall over a year).
+#' @param block_length An integer specifying the number of consecutive time steps in the block.
 #' @return A list with the following components:
 #'   \describe{
-#'     \item{max_percentage}{The maximum percentage of the total annual value contained in any block.}
-#'     \item{season_start}{The starting day (index) of the block with the maximum percentage.}
-#'     \item{season_end}{The ending day (index) of the block with the maximum percentage.}
+#'     \item{max_percentage}{The maximum percentage of the total value contained in any block.}
+#'     \item{season_start}{The starting index of the block with the maximum percentage.}
+#'     \item{season_end}{The ending index of the block with the maximum percentage.}
 #'   }
-#' @details The function iterates over each possible starting day and calculates the sum of the values
-#' over the next `block_length` days. If the block extends beyond the end of the vector, the counting wraps
-#' around to the beginning of the year.
+#' @details The function iterates over each possible starting index and calculates the sum of the values
+#' over the next `block_length` time steps. If the block extends beyond the end of the vector, the counting wraps
+#' around to the beginning.
 #' @export
 #' @examples
 #' # Generate a seasonal pattern using a Fourier-based prediction
@@ -47,9 +47,9 @@ seasonal_block <- function(profile, block_length) {
   max_start <- NA
   max_end <- NA
 
-  # Loop through each possible starting day
+  # Loop through each possible starting time
   for(i in 1:N) {
-    # Get the indices for the n-day block, wrapping around the year
+    # Get the indices for the n-time block, with wrapping
     indices <- ((i - 1 + 0:(block_length - 1)) %% N) + 1
     block_sum <- sum(profile[indices])
     block_percentage <- (block_sum / total) * 100
@@ -58,7 +58,7 @@ seasonal_block <- function(profile, block_length) {
     if(block_percentage > max_percentage) {
       max_percentage <- block_percentage
       max_start <- i
-      max_end <- indices[block_length]  # last day in the block
+      max_end <- indices[block_length]  # last time in the block
     }
   }
 
