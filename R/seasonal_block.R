@@ -5,13 +5,13 @@
 #' For each possible starting point, the function computes the sum over the next `block_length` time steps,
 #' converts that sum into a percentage of the total, and returns the block with the highest percentage.
 #'
-#' @param profile A numeric vector representing values across a regular time cycle (e.g., daily rainfall over a year).
+#' @param profile A numeric vector representing non-negative values across a regular time cycle (e.g., daily rainfall over a year).
 #' @param block_length An integer specifying the number of consecutive time steps in the block.
 #' @return A list with the following components:
 #'   \describe{
 #'     \item{max_percentage}{The maximum percentage of the total value contained in any block.}
-#'     \item{season_start}{The starting index of the block with the maximum percentage.}
-#'     \item{season_end}{The ending index of the block with the maximum percentage.}
+#'     \item{peak_season_start}{The starting index of the block with the maximum percentage.}
+#'     \item{peak_season_end}{The ending index of the block with the maximum percentage.}
 #'   }
 #' @details The function iterates over each possible starting index and calculates the sum of the values
 #' over the next `block_length` time steps. If the block extends beyond the end of the vector, the counting wraps
@@ -34,10 +34,18 @@
 #'   block_length = 30 * 3
 #' )
 #' print(identify_season$max_percentage)
-#' abline(v = c(identify_season$season_start, identify_season$season_end))
+#' abline(v = c(identify_season$peak_season_start, identify_season$peak_season_end))
 seasonal_block <- function(profile, block_length) {
   total <- sum(profile)
   N <- length(profile)
+
+  if(any(profile < 0)) {
+    stop("all profiles values must be >= 0")
+  }
+
+  if(block_length%%1 != 0) {
+    stop("block_length must be an integer")
+  }
 
   if(block_length > N){
     stop("block_length cannot be greater than the length of the profile vector")
@@ -65,8 +73,8 @@ seasonal_block <- function(profile, block_length) {
   return(
     list(
       max_percentage = max_percentage,
-      season_start = max_start,
-      season_end = max_end
+      peak_season_start = max_start,
+      peak_season_end = max_end
     )
   )
 }

@@ -7,7 +7,7 @@
 seasonal_block(profile, block_length)
 }
 \arguments{
-\item{profile}{A numeric vector representing values across a regular time cycle (e.g., daily rainfall over a year).}
+\item{profile}{A numeric vector representing non-negative values across a regular time cycle (e.g., daily rainfall over a year).}
 
 \item{block_length}{An integer specifying the number of consecutive time steps in the block.}
 }
@@ -15,8 +15,8 @@ seasonal_block(profile, block_length)
 A list with the following components:
   \describe{
     \item{max_percentage}{The maximum percentage of the total value contained in any block.}
-    \item{season_start}{The starting index of the block with the maximum percentage.}
-    \item{season_end}{The ending index of the block with the maximum percentage.}
+    \item{peak_season_start}{The starting index of the block with the maximum percentage.}
+    \item{peak_season_end}{The ending index of the block with the maximum percentage.}
   }
 }
 \description{
@@ -47,5 +47,5 @@ identify_season <- seasonal_block(
   block_length = 30 * 3
 )
 print(identify_season$max_percentage)
-abline(v = c(identify_season$season_start, identify_season$season_end))
+abline(v = c(identify_season$peak_season_start, identify_season$peak_season_end))
 }
