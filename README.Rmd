@@ -19,6 +19,8 @@ knitr::opts_chunk$set(
 [![R build status](https://github.com/mrc-ide/umbrella/workflows/R-CMD-check/badge.svg)](https://github.com/mrc-ide/umbrella/actions)
 [![codecov](https://codecov.io/gh/mrc-ide/umbrella/branch/master/graph/badge.svg)](https://codecov.io/gh/mrc-ide/umbrella)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Codecov test coverage](https://codecov.io/gh/mrc-ide/umbrella/graph/badge.svg)](https://app.codecov.io/gh/mrc-ide/umbrella)
+[![R-CMD-check](https://github.com/mrc-ide/umbrella/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mrc-ide/umbrella/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 Umbrella facilitates access and extraction of CHIRPS rainfall data and fitting of seasonal profiles. 
