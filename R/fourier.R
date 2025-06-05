@@ -57,7 +57,7 @@ fit_fourier <- function(rainfall, t, floor = 0.001){
   } else {
     fit <- stats::optim(par = rep(0, 6), fn = objective,
                  method = "L-BFGS-B",
-                 lower = rep(-10, 7), upper = rep(10, 7),
+                 lower = rep(-10, 6), upper = rep(10, 6),
                  t = t, floor = floor, rainfall = rainfall)
     out <- list(coefficients = c(mean(rainfall), fit$par))
   }
