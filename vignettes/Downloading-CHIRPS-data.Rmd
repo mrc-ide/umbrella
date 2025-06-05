@@ -1,0 +1,40 @@
+---
+title: "Downloading CHIRPS data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Downloading-CHIRPS-data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(umbrella)
+```
+
+This vignette demonstrates how to download CHIRPS daily rainfall rasters
+using the helper functions in `umbrella`.
+
+First build a vector of URLs for the desired year with `get_urls()`:
+
+```{r eval=FALSE}
+urls_2020 <- get_urls(2020)
+```
+
+Each URL can then be downloaded with `download_raster()`. The file is
+unzipped automatically:
+
+```{r eval=FALSE}
+# download the first day of 2020
+download_raster(urls_2020[1], "chirps_2020_01_01.tif.gz")
+```
+
+Remember that each unzipped raster is around 2.2 MB, so downloading a full
+year will require a substantial amount of disk space.
+
