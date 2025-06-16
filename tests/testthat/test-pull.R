@@ -22,3 +22,8 @@ test_that("get urls works", {
   expect_equal(get_urls(year), urls)
 })
 
+test_that("get urls requires past year", {
+  next_year <- as.integer(format(Sys.Date(), "%Y")) + 1
+  expect_error(get_urls(next_year), "Year must be in the past")
+})
+
