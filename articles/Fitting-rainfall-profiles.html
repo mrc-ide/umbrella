@@ -33,7 +33,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/Fitting-rainfall-profiles.html">Fitting rainfall profiles</a></li>
+<li><a class="dropdown-item" href="../articles/Downloading-CHIRPS-data.html">Downloading CHIRPS data</a></li>
+    <li><a class="dropdown-item" href="../articles/Fitting-rainfall-profiles.html">Fitting rainfall profiles</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -67,26 +68,30 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">umbrella</span><span class="op">)</span></span></code></pre></div>
 <p>Below is an example workflow for using the umbrella package to fit
-rainfall profiles for use in malariasimulation.</p>
+rainfall profiles for use in malariasimulation. Fitting a Fourier series
+provides a smooth representation of seasonal rainfall patterns that can
+be supplied directly to the <code>malariasimulation</code> package.</p>
 <p>First you’ll need to download the rasters and extract the raw data.
-There are some helper function to download global daily rainfall rasters
-in the package. You can use the <code><a href="../reference/get_urls.html">get_urls()</a></code> function to
-create the URLs to get daily rainfall rasters for a given year. After
+There are some helper functions to download global daily rainfall
+rasters in the package. You can use the <code><a href="../reference/get_urls.html">get_urls()</a></code> function
+to create the URLs to get daily rainfall rasters for a given year. After
 that the <code><a href="../reference/download_raster.html">download_raster()</a></code> can be used to download the
 rasters to your device. Beware that the set of unzipped rasters for a
 whole year will take up quite a bit of memory (each raster is about 2.2
 MB).</p>
-<p>Once you have you set of rasters you can load them and extract the
+<p>Once you have your set of rasters you can load them and extract the
 data. For this I recommend getting a <code>sf</code> shape file with the
 boundaries of the area you would like to extract the data for. The R
 package <code>terra</code> is a great way to extract the data, something
-like:</p>
+like: Many openly available administrative boundary shapefiles can be
+obtained from resources such as <a href="https://gadm.org/" class="external-link">GADM</a> or
+<a href="https://www.naturalearthdata.com/" class="external-link">Natural Earth</a>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_raster_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rainfall1.tif"</span>, <span class="st">"rainfall2.tif"</span><span class="op">)</span></span>
 <span><span class="va">my_raster</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu">rast</span><span class="op">(</span><span class="va">my_raster_files</span><span class="op">)</span></span>
 <span><span class="va">my_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="st">"my_sf.rds"</span><span class="op">)</span></span>
 <span><span class="va">extract_data</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu">extract</span><span class="op">(</span><span class="va">my_raster</span>, <span class="va">my_sf</span>, fun <span class="op">=</span> <span class="va">mean</span><span class="op">)</span></span></code></pre></div>
-<p>Once you’ve extracted and tidied the output, you might have somethig
+<p>Once you’ve extracted and tidied the output, you might have something
 like:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">rainfall</span><span class="op">)</span></span>
@@ -97,19 +102,27 @@ like:</p>
 <span><span class="co">#&gt; 4   4     0.28</span></span>
 <span><span class="co">#&gt; 5   5     0.17</span></span>
 <span><span class="co">#&gt; 6   6     0.03</span></span></code></pre></div>
-<p>Lets fit a simple seasonal profile to this dataset, and a profile
+<p>The built-in <code>rainfall</code> data set contains 365 rows with
+two columns: <code>day</code>, giving the day of the year, and
+<code>rainfall</code>, giving the observed rainfall in millimetres at a
+single location. We’ll use it here to demonstrate fitting seasonal
+profiles.</p>
+<p>Let’s fit a simple seasonal profile to this dataset, and a profile
 with an imposed minimum rainfall floor.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_fourier.html">fit_fourier</a></span><span class="op">(</span>rainfall <span class="op">=</span> <span class="va">rainfall</span><span class="op">$</span><span class="va">rainfall</span>, t <span class="op">=</span> <span class="va">rainfall</span><span class="op">$</span><span class="va">day</span>, floor <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="va">predict_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fourier_predict.html">fourier_predict</a></span><span class="op">(</span>coef <span class="op">=</span> <span class="va">fit1</span><span class="op">$</span><span class="va">coefficients</span>, t <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">365</span>, floor <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fit2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_fourier.html">fit_fourier</a></span><span class="op">(</span>rainfall <span class="op">=</span> <span class="va">rainfall</span><span class="op">$</span><span class="va">rainfall</span>, t <span class="op">=</span> <span class="va">rainfall</span><span class="op">$</span><span class="va">day</span>, floor <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">predict_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fourier_predict.html">fourier_predict</a></span><span class="op">(</span>coef <span class="op">=</span> <span class="va">fit1</span><span class="op">$</span><span class="va">coefficients</span>, t <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">365</span>, floor <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">predict_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fourier_predict.html">fourier_predict</a></span><span class="op">(</span>coef <span class="op">=</span> <span class="va">fit2</span><span class="op">$</span><span class="va">coefficients</span>, t <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">365</span>, floor <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rainfall</span>, xlab <span class="op">=</span> <span class="st">"Day"</span>, ylab <span class="op">=</span> <span class="st">"Rainfall"</span>, pch <span class="op">=</span> <span class="fl">19</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">predict_1</span>, col <span class="op">=</span> <span class="st">"deeppink"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">predict_2</span>, col <span class="op">=</span> <span class="st">"dodgerblue"</span>, lwd <span class="op">=</span> <span class="fl">2</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Fitting-rainfall-profiles_files/figure-html/unnamed-chunk-4-1.png" width="480"></p>
+<p>The pink line shows the profile fitted without imposing a minimum
+rainfall value. The dashed blue line applies a floor of 1 mm and
+therefore never drops below that value.</p>
   </main>
 </div>
 
