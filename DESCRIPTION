@@ -5,7 +5,7 @@ Version: 0.3.2
 Authors@R: c(
     person("Pete", "Winskill", email = "p.winskill@imperial.ac.uk", role = c("aut", "cre"))
     )
-Description: Download CHIRPS rainfall rasters. Extract rainfall by place. Estimate seaosnality profiles.
+Description: Download CHIRPS rainfall rasters. Extract rainfall by place. Estimate seasonality profiles.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
